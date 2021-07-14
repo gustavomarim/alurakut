@@ -5,6 +5,8 @@ import NextLink from 'next/link';
 const BASE_URL = 'http://alurakut.vercel.app/';
 const v = '1';
 
+const usuarioAleatorio = 'gustavomarim'
+
 
 function Link({ href, children, ...props }) {
   return (
@@ -167,6 +169,9 @@ AlurakutMenu.Logo = styled.img`
 `;
 
 function AlurakutMenuProfileSidebar({ githubUser }) {
+
+  githubUser = usuarioAleatorio
+
   return (
     <div className="alurakutMenuProfileSidebar">
       <div>
