@@ -44,57 +44,40 @@ function ProfileSidebar(propriedades) {
 
 export default function Home() {
   const githubUser = 'gustavomarim';
+  const [isShowingMoreCommunities, setIsShowingMoreCommunities] = React.useState(false);
+  const [seguidores, setSeguidores] = React.useState([]);
+  const [followers, setFollowers] = React.useState([]);
+  const [isShowingMoreFollowers, setIsShowingMoreFollowers] = React.useState(false);
 
   function handleCriarComunidade(e) {
     e.preventDefault()
     const dadosDoForm = new FormData(e.target)
-
     const comunidade = {
-      id: new Date().toISOString(),
       title: dadosDoForm.get('title'),
-      image: dadosDoForm.get('image'),
-      link: dadosDoForm.get('link'),
+      imageUrl: dadosDoForm.get('image'),
+      creatorSlug: githubUser,
     }
 
-    const comunidadesAtualizadas = [...comunidades, comunidade]
-    setComunidades(comunidadesAtualizadas)
+    fetch('/api/comunidades', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(comunidade)
+    })
+      .then(async (response) => {
+        const dados = await response.json();
+        console.log(dados.registroCriado);
+        const comunidade = dados.registroCriado;
+        const comunidadesAtualizadas = [...comunidades, comunidade];
+        setComunidades(comunidadesAtualizadas)
+      })
   }
 
-  const [isShowingMoreCommunities, setIsShowingMoreCommunities] = React.useState(false);
-
   React.useState(['Alurakut']); // Hooks
+
   const [comunidades, setComunidades] = React.useState([
-    {
-      id: '121231321391381',
-      title: 'Eu odeio acordar cedo',
-      image: 'https://alurakut.vercel.app/capa-comunidade-01.jpg'
-    },
-    {
-      id: 2,
-      title: 'Não fui eu, foi meu Eu lírico',
-      image:
-        'https://picsum.photos/200/300',
-    },
-    {
-      id: 3,
-      title: 'Eu amo minha mãe',
-      image:
-        'https://picsum.photos/200/300',
-    },
-    {
-      id: 4,
-      title: 'Alura',
-      image:
-        'https://yt3.ggpht.com/ytc/AKedOLRszi3O39AB5-uw_1jkrxJppwegjToBgIKFIOqiiA=s88-c-k-c0x00ffffff-no-rj',
-      link: 'https://www.alura.com.br/',
-    },
-    {
-      id: 5,
-      title: 'Rocketseat',
-      image:
-        'https://yt3.ggpht.com/ytc/AKedOLQkXnYChXAHOeBQLzwhk1_BHYgUXs6ITQOakoeNoQ=s88-c-k-c0x00ffffff-no-rj',
-      link: 'https://rocketseat.com.br/',
-    },
+
   ])
 
   // Alterar para fetch
@@ -107,6 +90,34 @@ export default function Home() {
     'felipefialho'
   ]
 
+  // API GraphQL
+  React.useEffect(function () {
+    // API GraphQL
+    fetch('https://graphql.datocms.com/', {
+      method: 'POST',
+      headers: {
+        'Authorization': '2412cb84c44f2e4678faa234cab261',
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify({
+        "query": `query {
+            allCommunities {
+              id 
+              title
+              imageUrl
+              creatorSlug
+            }
+          }` })
+    })
+      .then((response) => response.json()) // Pega o retorno do response.json() e já retorna
+      .then((respostaCompleta) => {
+        const comunidadesVindasDoDato = respostaCompleta.data.allCommunities;
+        console.log(comunidadesVindasDoDato)
+        setComunidades(comunidadesVindasDoDato)
+      })
+  }, [])
+
   //  0 - Pegar o array de dados do github
   // React.useEffect(function () {
   //   fetch(`https://api.github.com/users/${githubUser}/followers`)
@@ -118,10 +129,6 @@ export default function Home() {
   //   })
   // }, [])
 
-  const [seguidores, setSeguidores] = React.useState([])
-  const [followers, setFollowers] = React.useState([]);
-  const [isShowingMoreFollowers, setIsShowingMoreFollowers] = React.useState(false);
-
   React.useEffect(function getGithubFollowers() {
     fetch(`https://api.github.com/users/${githubUser}/followers`)
       .then(function (respostaDoServidor) {
@@ -131,11 +138,6 @@ export default function Home() {
         setFollowers(respostaCompleta)
       })
   }, [])
-
-  // useEffect(() => {
-  //   getGithubFollowers();
-  // }, []);
-
 
   function handleShowMoreFollowers(e) {
     e.preventDefault();
@@ -242,8 +244,8 @@ export default function Home() {
               {comunidades.map((itemAtual) => {
                 return (
                   <li key={itemAtual.id}>
-                    <a href={`/users/${itemAtual.title}`} key={itemAtual.title}>
-                      <img src={itemAtual.image} />
+                    <a href={`/comunities/${itemAtual.id}`} key={itemAtual.title}>
+                      <img src={itemAtual.imageUrl} />
                       <span>{itemAtual.title}</span>
                     </a>
                   </li>
@@ -271,7 +273,7 @@ export default function Home() {
               {followers.map((item) => {
                 return (
                   <li key={item.id}>
-                    <a href={`/profile/${item.login}`} passHref>
+                    <a href={`/profile/${item.login}`} >
                       <a>
                         <img src={`https://github.com/${item.login}.png`} />
                         <span>{item.login}</span>
