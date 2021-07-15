@@ -21,7 +21,7 @@ function Link({ href, children, ...props }) {
 export function AlurakutMenu({ githubUser }) {
   const [isMenuOpen, setMenuState] = React.useState(false);
   return (
-    <AlurakutMenu.Wrapper isMenuOpen={isMenuOpen}>
+    <AlurakutMenu.Wrapper isMenuOpen={isMenuOpen} className={isMenuOpen ? 'active' : ''}>
       <div className="container">
         <AlurakutMenu.Logo src={`${BASE_URL}/logo.svg`} />
 
@@ -56,6 +56,12 @@ AlurakutMenu.Wrapper = styled.header`
   width: 100%;
   background-color: #923cb5;
   background-image: linear-gradient(147deg, #923cb5 0%, #000000 74%);
+
+  &.active {
+    position: fixed;
+    z-index: 100;
+  }
+
   .alurakutMenuProfileSidebar {
     background-color: #d8dede;
     background-image: linear-gradient(315deg, #d8dede 0%, #e5bdf6 74%);
@@ -77,9 +83,11 @@ AlurakutMenu.Wrapper = styled.header`
       max-width: 400px;
       margin: auto;
     }
+
     a {
       font-size: 18px;
     }
+
     .boxLink {
       font-size: 18px;
       color: #2E7BB4;
@@ -106,6 +114,7 @@ AlurakutMenu.Wrapper = styled.header`
     @media(min-width: 860px) {
       justify-content: flex-start;
     }
+
     button {
       border: 0;
       background: transparent;
@@ -115,6 +124,7 @@ AlurakutMenu.Wrapper = styled.header`
         display: none;
       }
     }
+
     nav {
       display: none;
       @media(min-width: 860px) {
@@ -140,6 +150,7 @@ AlurakutMenu.Wrapper = styled.header`
         }
       }
     }
+
     input {
       color: #ffffff;
       background:#a88beb;
@@ -447,6 +458,7 @@ const AlurakutLoginScreen = css`
         }
       }
     }
+    
     .footerArea {
       grid-area: footerArea;
       background-color: var(--backgroundQuarternary);
