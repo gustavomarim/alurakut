@@ -44,6 +44,7 @@ function ProfileSidebar(propriedades) {
 
 export default function Home() {
   const githubUser = 'gustavomarim';
+  const [comunidades, setComunidades] = React.useState([])
   const [isShowingMoreCommunities, setIsShowingMoreCommunities] = React.useState(false);
   const [seguidores, setSeguidores] = React.useState([]);
   const [followers, setFollowers] = React.useState([]);
@@ -76,10 +77,6 @@ export default function Home() {
 
   React.useState(['Alurakut']); // Hooks
 
-  const [comunidades, setComunidades] = React.useState([
-
-  ])
-
   // Alterar para fetch
   const pessoasFavoritas = [
     'juunegreiros',
@@ -92,7 +89,6 @@ export default function Home() {
 
   // API GraphQL
   React.useEffect(function () {
-    // API GraphQL
     fetch('https://graphql.datocms.com/', {
       method: 'POST',
       headers: {
@@ -118,17 +114,6 @@ export default function Home() {
       })
   }, [])
 
-  //  0 - Pegar o array de dados do github
-  // React.useEffect(function () {
-  //   fetch(`https://api.github.com/users/${githubUser}/followers`)
-  //   .then(function (respostaDoServidor) {
-  //     return respostaDoServidor.json()
-  //   })
-  //   .then(function (respostaCompleta) {
-  //     setSeguidores(respostaCompleta)
-  //   })
-  // }, [])
-
   React.useEffect(function getGithubFollowers() {
     fetch(`https://api.github.com/users/${githubUser}/followers`)
       .then(function (respostaDoServidor) {
@@ -149,8 +134,6 @@ export default function Home() {
     setIsShowingMoreCommunities(!isShowingMoreCommunities);
   }
 
-  //  1 - Criar um box que vai ter um map, baseado nos itens do array que pegamos no Github
-
   return (
     <>
       <AlurakutMenu githubUser={githubUser} />
@@ -162,6 +145,8 @@ export default function Home() {
         <div className="welcomeArea" style={{ gridArea: 'welcomeArea' }}>
           <Box as="aside">
             <h1 className="title">
+
+            {/* Fazer um fetch para a api do github (Chamar a propriedade nome de lá) */}
               Bem vindo(a) {githubUser}
             </h1>
             <OrkutNostalgicIconSet />
@@ -177,12 +162,14 @@ export default function Home() {
                   aria-label="Qual vai ser o nome da sua comunidade?"
                   type="text-" />
               </div>
+
               <div>
                 <input
                   placeholder="Coloque uma URL para usarmos de capa"
                   name="image"
                   aria-label="Coloque uma URL para usarmos de capa" />
               </div>
+
               <div>
                 <input
                   placeholder="Insira um link para sua comunidade"
@@ -206,9 +193,10 @@ export default function Home() {
         </div>
 
         <div className="profileRelationsArea" style={{ gridArea: 'profileRelationsArea' }}>
-
           <ProfileRelationsBoxWrapper >
             <h2 className="smallTitle">
+
+            {/* Criar um fetch baseado na API do github para os Following */}
               Pessoas da Comunidade ({pessoasFavoritas.length})
             </h2>
             <ul>
@@ -237,7 +225,7 @@ export default function Home() {
           </ProfileRelationsBoxWrapper>
 
           <ProfileRelationsBoxWrapper isShowingMoreItems={isShowingMoreCommunities}>
-            <h2 className="subtitle">
+            <h2 className="smallTitle">
               Comunidades ({comunidades.length})
             </h2>
             <ul>
@@ -266,8 +254,7 @@ export default function Home() {
           </ProfileRelationsBoxWrapper>
 
           <ProfileRelationsBoxWrapper
-            isShowingMoreItems={isShowingMoreFollowers}
-          >
+            isShowingMoreItems={isShowingMoreFollowers}>
             <h2 className="smallTitle">Seguidores ({followers.length})</h2>
             <ul>
               {followers.map((item) => {
