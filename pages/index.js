@@ -1,10 +1,10 @@
 import React from 'react';
 import nookies from 'nookies'
 import jwt from 'jsonwebtoken'
-import MainGrid from '../src/_components/MainGrid'
-import Box from '../src/_components/Box'
+import MainGrid from '../src/components/MainGrid'
+import Box from '../src/components/Box'
 import { AlurakutMenu, AlurakutProfileSidebarMenuDefault, OrkutNostalgicIconSet } from '../src/lib/AlurakutCommons';
-import { ProfileRelationsBoxWrapper } from '../src/_components/ProfileRelations';
+import { ProfileRelationsBoxWrapper } from '../src/components/ProfileRelations';
 
 function ProfileSidebar(propriedades) {
   return (
