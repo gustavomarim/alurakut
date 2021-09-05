@@ -1,6 +1,4 @@
 import React from 'react';
-import nookies from 'nookies'
-import jwt from 'jsonwebtoken'
 import MainGrid from '../src/components/MainGrid'
 import Box from '../src/components/Box'
 import { AlurakutMenu, AlurakutProfileSidebarMenuDefault, OrkutNostalgicIconSet } from '../src/lib/AlurakutCommons';
@@ -24,8 +22,28 @@ function ProfileSidebar(propriedades) {
   )
 }
 
-export default function Home(props) {
-  const githubUser = props.githubUser
+// function ProfileRelationsBox(propriedades) {
+//   return (
+//     <ProfileRelationsBoxWrapper >
+//       <h2 className="smallTitle">{propriedades.title} ({propriedades.items.length})</h2>
+//       <ul>
+//         {/* {seguidores.map((itemAtual) => {
+//           return (
+//             <li key={itemAtual}>
+//               <a href={`https://github.com/${itemAtual}.png`}>
+//                 <img src={itemAtual.image} />
+//                 <span>{itemAtual.title}</span>
+//               </a>
+//             </li>
+//           )
+//         })} */}
+//       </ul>
+//     </ProfileRelationsBoxWrapper>
+//   )
+// }
+
+export default function Home() {
+  const githubUser = 'gustavomarim';
   const [comunidades, setComunidades] = React.useState([])
   const [isShowingMoreCommunities, setIsShowingMoreCommunities] = React.useState(false);
   const [seguidores, setSeguidores] = React.useState([]);
@@ -59,7 +77,7 @@ export default function Home(props) {
 
   React.useState(['Alurakut']); // Hooks
 
-  // Fazer um fetch para capturar os following
+  // Alterar para fetch
   const pessoasFavoritas = [
     'juunegreiros',
     'omariosouto',
@@ -128,7 +146,7 @@ export default function Home(props) {
           <Box as="aside">
             <h1 className="title">
 
-              {/* Fazer um fetch para a api do github (Chamar a propriedade nome de lá) */}
+            {/* Fazer um fetch para a api do github (Chamar a propriedade nome de lá) */}
               Bem vindo(a) {githubUser}
             </h1>
             <OrkutNostalgicIconSet />
@@ -178,7 +196,7 @@ export default function Home(props) {
           <ProfileRelationsBoxWrapper >
             <h2 className="smallTitle">
 
-              {/* Criar um fetch baseado na API do github para os Following */}
+            {/* Criar um fetch baseado na API do github para os Following */}
               Pessoas da Comunidade ({pessoasFavoritas.length})
             </h2>
             <ul>
@@ -270,60 +288,3 @@ export default function Home(props) {
     </>
   )
 }
-
-export async function getServerSideProps(context) {
-  const cookies = nookies.get(context)
-  const token = cookies.USER_TOKEN;
-  const { isAuthenticated } = await fetch('https://alurakut.vercel.app/api/auth', {
-    headers: {
-        Authorization: token
-      }
-  })
-  .then((resposta) => resposta.json())
-
-  if(!isAuthenticated) {
-    return {
-      redirect: {
-        destination: '/login',
-        permanent: false,
-      }
-    }
-  }
-
-  const { githubUser } = jwt.decode(token);
-  return {
-    props: {
-      githubUser
-    }, // will be passed to the page component as props
-  }
-} 
-
-/* export async function getServerSideProps(ctx) {
-  const cookies = nookies.get(ctx);
-  const token = cookies.USER_TOKEN;
-  const decodedToken = jwt.decode(token);
-  const githubUser = decodedToken?.githubUser;
-
-  if (!githubUser) {
-    return {
-      redirect: {
-        destination: '/login',
-        permanent: false,
-      },
-    }
-  }
-
-  // const followers = await fetch(`https://api.github.com/users/${githubUser}/followers`)
-  //   .then((res) => res.json())
-  //   .then(followers => followers.map((follower) => ({
-  //     id: follower.id,
-  //     name: follower.login,
-  //     image: follower.avatar_url,
-  //   })));
-
-  return {
-    props: {
-      githubUser,
-    }
-  }
-} */
