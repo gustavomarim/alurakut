@@ -91,18 +91,18 @@ export default function Home(props) {
       .then((response) => response.json()) // Pega o retorno do response.json() e já retorna
       .then((respostaCompleta) => {
         const comunidadesVindasDoDato = respostaCompleta.data.allCommunities;
-        console.log(comunidadesVindasDoDato)
-        setComunidades(comunidadesVindasDoDato)
+        console.log(comunidadesVindasDoDato);
+        setComunidades(comunidadesVindasDoDato);
       })
   }, [])
 
   React.useEffect(function getGithubFollowers() {
     fetch(`https://api.github.com/users/${githubUser}/followers`)
       .then(function (respostaDoServidor) {
-        return respostaDoServidor.json()
+        return respostaDoServidor.json();
       })
       .then(function (respostaCompleta) {
-        setFollowers(respostaCompleta)
+        setFollowers(respostaCompleta);
       })
   }, [])
 
