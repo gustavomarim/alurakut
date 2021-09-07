@@ -25,7 +25,7 @@ function ProfileSidebar(propriedades) {
 };
 
 export default function Home() {
-  const githubUser = 'gustavomarim';
+  const githubUser = githubUser;
   const [comunidades, setComunidades] = React.useState([])
   const [isShowingMoreCommunities, setIsShowingMoreCommunities] = React.useState(false);
   const [seguidores, setSeguidores] = React.useState([]);
@@ -88,7 +88,7 @@ export default function Home() {
             }
           }` })
     })
-      .then((response) => response.json()) // Pega o retorno do response.json() e já retorna
+      .then((response) => response.json())
       .then((respostaCompleta) => {
         const comunidadesVindasDoDato = respostaCompleta.data.allCommunities;
         console.log(comunidadesVindasDoDato);
