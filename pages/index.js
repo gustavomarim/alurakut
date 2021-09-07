@@ -1,8 +1,8 @@
 import React from 'react';
-import nookies from 'nookies'
-import jwt from 'jsonwebtoken'
-import MainGrid from '../src/components/MainGrid'
-import Box from '../src/components/Box'
+import nookies from 'nookies';
+import jwt from 'jsonwebtoken';
+import MainGrid from '../src/components/MainGrid';
+import Box from '../src/components/Box';
 import { AlurakutMenu, AlurakutProfileSidebarMenuDefault, OrkutNostalgicIconSet } from '../src/lib/AlurakutCommons';
 import { ProfileRelationsBoxWrapper } from '../src/components/ProfileRelations';
 
@@ -25,7 +25,7 @@ function ProfileSidebar(propriedades) {
 }
 
 export default function Home(props) {
-  const githubUser = props.githubUser
+  // const githubUser = props.githubUser;
   const [comunidades, setComunidades] = React.useState([])
   const [isShowingMoreCommunities, setIsShowingMoreCommunities] = React.useState(false);
   const [seguidores, setSeguidores] = React.useState([]);
@@ -94,7 +94,7 @@ export default function Home(props) {
         console.log(comunidadesVindasDoDato)
         setComunidades(comunidadesVindasDoDato)
       })
-  }, [])
+  }, []);
 
   React.useEffect(function getGithubFollowers() {
     fetch(`https://api.github.com/users/${githubUser}/followers`)
