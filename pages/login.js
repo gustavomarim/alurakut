@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 // Hook do NextJS
 import { useRouter } from 'next/router';
 import nookies from 'nookies';
