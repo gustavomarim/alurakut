@@ -13,12 +13,14 @@ export default async function recebedorDeRequests(request, response) {
             // title: "Comunidade de Teste",
             // imageUrl: "https://github.com/gustavomarim.png",
             // creatorSlug: "gustavomarim",
-        });
+        })
+
+        console.log(registroCriado);
 
         response.json({
             dados: 'Algum dado qualquer',
             registroCriado: registroCriado,
-        });
+        })
         return;
     };
 

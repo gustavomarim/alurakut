@@ -24,9 +24,9 @@ function ProfileSidebar(propriedades) {
   )
 };
 
-export default function Home() {
-  const githubUser = githubUser;
-  const [comunidades, setComunidades] = React.useState([])
+export default function Home(props) {
+  const githubUser = props.githubUser;
+  const [comunidades, setComunidades] = React.useState([]);
   const [isShowingMoreCommunities, setIsShowingMoreCommunities] = React.useState(false);
   const [seguidores, setSeguidores] = React.useState([]);
   const [followers, setFollowers] = React.useState([]);
@@ -88,7 +88,7 @@ export default function Home() {
             }
           }` })
     })
-      .then((response) => response.json())
+      .then((response) => response.json()) // Pega o retorno do response.json() e já retorna
       .then((respostaCompleta) => {
         const comunidadesVindasDoDato = respostaCompleta.data.allCommunities;
         console.log(comunidadesVindasDoDato);
@@ -104,17 +104,17 @@ export default function Home() {
       .then(function (respostaCompleta) {
         setFollowers(respostaCompleta);
       })
-  }, [])
+  }, []);
 
   function handleShowMoreFollowers(e) {
     e.preventDefault();
     setIsShowingMoreFollowers(!isShowingMoreFollowers);
-  }
+  };
 
   function handleShowMoreCommunities(e) {
     e.preventDefault();
     setIsShowingMoreCommunities(!isShowingMoreCommunities);
-  }
+  };
 
   return (
     <>
@@ -269,4 +269,34 @@ export default function Home() {
       </MainGrid>
     </>
   );
+};
+
+export async function getServerSideProps(ctx) {
+  const cookies = nookies.get(ctx);
+  const token = cookies.USER_TOKEN;
+  const decodedToken = jwt.decode(token);
+  const githubUser = decodedToken?.githubUser;
+
+  if (!githubUser) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    }
+  }
+
+  // const followers = await fetch(`https://api.github.com/users/${githubUser}/followers`)
+  //   .then((res) => res.json())
+  //   .then(followers => followers.map((follower) => ({
+  //     id: follower.id,
+  //     name: follower.login,
+  //     image: follower.avatar_url,
+  //   })));
+
+  return {
+    props: {
+      githubUser,
+    }
+  }
 };
