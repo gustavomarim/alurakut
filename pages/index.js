@@ -1,13 +1,10 @@
 import React from 'react';
-<<<<<<< HEAD
 import nookies from 'nookies';
 import jwt from 'jsonwebtoken';
 import MainGrid from '../src/components/MainGrid';
 import Box from '../src/components/Box';
-=======
-import MainGrid from '../src/components/MainGrid'
+import MainGrid from '../src/components/MainGrid';
 import Box from '../src/components/Box'
->>>>>>> 22631ce9a62eed83897fa00cd2ceba10d32b01c7
 import { AlurakutMenu, AlurakutProfileSidebarMenuDefault, OrkutNostalgicIconSet } from '../src/lib/AlurakutCommons';
 import { ProfileRelationsBoxWrapper } from '../src/components/ProfileRelations';
 
@@ -27,35 +24,10 @@ function ProfileSidebar(propriedades) {
       <AlurakutProfileSidebarMenuDefault />
     </Box>
   )
-}
-
-<<<<<<< HEAD
-export default function Home(props) {
-  // const githubUser = props.githubUser;
-=======
-// function ProfileRelationsBox(propriedades) {
-//   return (
-//     <ProfileRelationsBoxWrapper >
-//       <h2 className="smallTitle">{propriedades.title} ({propriedades.items.length})</h2>
-//       <ul>
-//         {/* {seguidores.map((itemAtual) => {
-//           return (
-//             <li key={itemAtual}>
-//               <a href={`https://github.com/${itemAtual}.png`}>
-//                 <img src={itemAtual.image} />
-//                 <span>{itemAtual.title}</span>
-//               </a>
-//             </li>
-//           )
-//         })} */}
-//       </ul>
-//     </ProfileRelationsBoxWrapper>
-//   )
-// }
+};
 
 export default function Home() {
   const githubUser = 'gustavomarim';
->>>>>>> 22631ce9a62eed83897fa00cd2ceba10d32b01c7
   const [comunidades, setComunidades] = React.useState([])
   const [isShowingMoreCommunities, setIsShowingMoreCommunities] = React.useState(false);
   const [seguidores, setSeguidores] = React.useState([]);
@@ -158,7 +130,7 @@ export default function Home() {
           <Box as="aside">
             <h1 className="title">
 
-            {/* Fazer um fetch para a api do github (Chamar a propriedade nome de lá) */}
+              {/* Fazer um fetch para a api do github (Chamar a propriedade nome de lá) */}
               Bem vindo(a) {githubUser}
             </h1>
             <OrkutNostalgicIconSet />
@@ -208,7 +180,7 @@ export default function Home() {
           <ProfileRelationsBoxWrapper >
             <h2 className="smallTitle">
 
-            {/* Criar um fetch baseado na API do github para os Following */}
+              {/* Criar um fetch baseado na API do github para os Following */}
               Pessoas da Comunidade ({pessoasFavoritas.length})
             </h2>
             <ul>
@@ -298,5 +270,5 @@ export default function Home() {
         </div>
       </MainGrid>
     </>
-  )
-}
+  );
+};
