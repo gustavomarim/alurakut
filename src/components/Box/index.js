@@ -65,4 +65,4 @@ background-image: linear-gradient(315deg, #f8ceec 0%, #a88beb 74%);
   }
 `;
 
-export default Box
+export default Box;
