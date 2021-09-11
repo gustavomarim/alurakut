@@ -1,6 +1,5 @@
-import { Fragment } from 'react'
-import { createGlobalStyle, ThemeProvider } from 'styled-components'
-import {AlurakutStyles} from '../src/lib/AlurakutCommons'
+import { createGlobalStyle, ThemeProvider } from 'styled-components';
+import { AlurakutStyles } from '../src/lib/AlurakutCommons';
 
 const GlobalStyle = createGlobalStyle`
   /* Reset CSS (Necolas Reset CSS <3) */
@@ -41,9 +40,9 @@ export default function App({ Component, pageProps }) {
   return (
     <>
       <GlobalStyle />
-      <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
-      </ThemeProvider>
+      <ThemeProvider theme={theme}>;
+        <Component {...pageProps} />;
+      </ThemeProvider>;
     </>
   )
 }
