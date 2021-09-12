@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useSteate } from 'react';
 import nookies from 'nookies';
 import jwt from 'jsonwebtoken';
 import MainGrid from '../src/components/MainGrid';
@@ -28,13 +28,12 @@ export default function Home(props) {
   const githubUser = props.githubUser
   const [comunidades, setComunidades] = React.useState([])
   const [isShowingMoreCommunities, setIsShowingMoreCommunities] = React.useState(false);
-  // const [seguidores, setSeguidores] = React.useState([]);
   const [following, setFollowing] = React.useState([]);
   const [isShowingMoreFollowing, setIsShowingMoreFollowing] = React.useState(false);
   const [followers, setFollowers] = React.useState([]);
   const [isShowingMoreFollowers, setIsShowingMoreFollowers] = React.useState(false);
 
-    function handleCriarComunidade(e) {
+  function handleCriarComunidade(e) {
     e.preventDefault()
     const dadosDoForm = new FormData(e.target)
     const comunidade = {
@@ -60,16 +59,6 @@ export default function Home(props) {
   }
 
   React.useState(['Alurakut']); // Hooks
-
-  // Fazer um fetch para capturar os following
-  // const pessoasFavoritas = [
-  //   'juunegreiros',
-  //   'omariosouto',
-  //   'peas',
-  //   'rafaballerini',
-  //   'marcobrunodev',
-  //   'felipefialho'
-  // ]
 
   // API GraphQL
   React.useEffect(function () {
@@ -195,7 +184,7 @@ export default function Home(props) {
         </div>
 
         <div className="profileRelationsArea" style={{ gridArea: 'profileRelationsArea' }}>
-        <ProfileRelationsBoxWrapper
+          <ProfileRelationsBoxWrapper
             isShowingMoreItems={isShowingMoreFollowing}>
             <h2 className="smallTitle">Seguindo ({following.length})</h2>
             <ul>
@@ -295,12 +284,12 @@ export async function getServerSideProps(context) {
   const token = cookies.USER_TOKEN;
   const { isAuthenticated } = await fetch('https://alurakut.vercel.app/api/auth', {
     headers: {
-        Authorization: token
-      }
+      Authorization: token
+    }
   })
-  .then((resposta) => resposta.json())
+    .then((resposta) => resposta.json())
 
-  if(!isAuthenticated) {
+  if (!isAuthenticated) {
     return {
       redirect: {
         destination: '/login',
@@ -315,7 +304,7 @@ export async function getServerSideProps(context) {
       githubUser
     }, // will be passed to the page component as props
   }
-} 
+}
 
 /* export async function getServerSideProps(ctx) {
   const cookies = nookies.get(ctx);
