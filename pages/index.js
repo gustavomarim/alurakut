@@ -1,8 +1,8 @@
 import React from 'react';
-import nookies from 'nookies'
-import jwt from 'jsonwebtoken'
-import MainGrid from '../src/components/MainGrid'
-import Box from '../src/components/Box'
+import nookies from 'nookies';
+import jwt from 'jsonwebtoken';
+import MainGrid from '../src/components/MainGrid';
+import Box from '../src/components/Box';
 import { AlurakutMenu, AlurakutProfileSidebarMenuDefault, OrkutNostalgicIconSet } from '../src/lib/AlurakutCommons';
 import { ProfileRelationsBoxWrapper } from '../src/components/ProfileRelations';
 
@@ -28,11 +28,13 @@ export default function Home(props) {
   const githubUser = props.githubUser
   const [comunidades, setComunidades] = React.useState([])
   const [isShowingMoreCommunities, setIsShowingMoreCommunities] = React.useState(false);
-  const [seguidores, setSeguidores] = React.useState([]);
+  // const [seguidores, setSeguidores] = React.useState([]);
+  const [following, setFollowing] = React.useState([]);
+  const [isShowingMoreFollowing, setIsShowingMoreFollowing] = React.useState(false);
   const [followers, setFollowers] = React.useState([]);
   const [isShowingMoreFollowers, setIsShowingMoreFollowers] = React.useState(false);
 
-  function handleCriarComunidade(e) {
+    function handleCriarComunidade(e) {
     e.preventDefault()
     const dadosDoForm = new FormData(e.target)
     const comunidade = {
@@ -60,14 +62,14 @@ export default function Home(props) {
   React.useState(['Alurakut']); // Hooks
 
   // Fazer um fetch para capturar os following
-  const pessoasFavoritas = [
-    'juunegreiros',
-    'omariosouto',
-    'peas',
-    'rafaballerini',
-    'marcobrunodev',
-    'felipefialho'
-  ]
+  // const pessoasFavoritas = [
+  //   'juunegreiros',
+  //   'omariosouto',
+  //   'peas',
+  //   'rafaballerini',
+  //   'marcobrunodev',
+  //   'felipefialho'
+  // ]
 
   // API GraphQL
   React.useEffect(function () {
@@ -94,7 +96,7 @@ export default function Home(props) {
         console.log(comunidadesVindasDoDato)
         setComunidades(comunidadesVindasDoDato)
       })
-  }, [])
+  }, []);
 
   React.useEffect(function getGithubFollowers() {
     fetch(`https://api.github.com/users/${githubUser}/followers`)
@@ -103,8 +105,26 @@ export default function Home(props) {
       })
       .then(function (respostaCompleta) {
         setFollowers(respostaCompleta)
+        console.log(respostaCompleta);
       })
-  }, [])
+  }, []);
+
+  React.useEffect(function getGithubFollowing() {
+    fetch(`https://api.github.com/users/${githubUser}/following`)
+      .then(function (respostaDoServidor) {
+        return respostaDoServidor.json()
+      })
+      .then(function (respostaCompleta) {
+        setFollowing(respostaCompleta);
+        console.log('seguindo', respostaCompleta);
+      })
+  }, []);
+  console.log('following', following);
+
+  function handleShowMoreFollowing(e) {
+    e.preventDefault();
+    setIsShowingMoreFollowers(!isShowingMoreFollowing);
+  }
 
   function handleShowMoreFollowers(e) {
     e.preventDefault();
@@ -175,32 +195,31 @@ export default function Home(props) {
         </div>
 
         <div className="profileRelationsArea" style={{ gridArea: 'profileRelationsArea' }}>
-          <ProfileRelationsBoxWrapper >
-            <h2 className="smallTitle">
-
-              {/* Criar um fetch baseado na API do github para os Following */}
-              Pessoas da Comunidade ({pessoasFavoritas.length})
-            </h2>
+        <ProfileRelationsBoxWrapper
+            isShowingMoreItems={isShowingMoreFollowing}>
+            <h2 className="smallTitle">Seguindo ({following.length})</h2>
             <ul>
-              {pessoasFavoritas.map((itemAtual) => {
+              {following.map((item) => {
                 return (
-                  <li key={itemAtual}>
-                    <a href={`/users/${itemAtual}`} key={itemAtual}>
-                      <img src={`https://github.com/${itemAtual}.png`} />
-                      <span>{itemAtual}</span>
+                  <li key={item.id}>
+                    <a href={`/profile/${item.login}`} >
+                      <a>
+                        <img src={`https://github.com/${item.login}.png`} />
+                        <span>{item.login}</span>
+                      </a>
                     </a>
                   </li>
-                )
+                );
               })}
             </ul>
-            {pessoasFavoritas.length > 6 && (
+            {following.length > 6 && (
               <>
                 <hr />
                 <button
                   className="toggleButton"
-                  onClick={(e) => handleShowMoreCommunities(e)}
+                  onClick={(e) => handleShowMoreFollowing(e)}
                 >
-                  {isShowingMoreCommunities ? 'Ver menos' : 'Ver mais'}
+                  {isShowingMoreFollowing ? 'Ver menos' : 'Ver mais'}
                 </button>
               </>
             )}
