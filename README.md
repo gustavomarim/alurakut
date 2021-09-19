@@ -1,7 +1,7 @@
 <h1 align="center">Alurakut</h1>
 
 <div align="center">
-<img src="https://github.com/gustavomarim/imgs/blob/main/alurakut.gif" alt="Alurakut" height="400">
+<img src="https://github.com/gustavomarim/imgs/blob/main/alurakut.gif" alt="Alurakut" height="500">
 </div>
 
 ---
