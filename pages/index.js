@@ -105,25 +105,23 @@ export default function Home(props) {
       })
       .then(function (respostaCompleta) {
         setFollowing(respostaCompleta);
-        console.log('seguindo', respostaCompleta);
       })
   }, []);
-  console.log('following', following);
 
   function handleShowMoreFollowing(e) {
     e.preventDefault();
-    setIsShowingMoreFollowers(!isShowingMoreFollowing);
-  }
+    setIsShowingMoreFollowing(!isShowingMoreFollowing);
+  };
 
   function handleShowMoreFollowers(e) {
     e.preventDefault();
     setIsShowingMoreFollowers(!isShowingMoreFollowers);
-  }
+  };
 
   function handleShowMoreCommunities(e) {
     e.preventDefault();
     setIsShowingMoreCommunities(!isShowingMoreCommunities);
-  }
+  };
 
   return (
     <>
@@ -172,7 +170,7 @@ export default function Home(props) {
                 Criar comunidade
               </button>
 
-              {/*  <button>
+               {/* <button>
                 Escrever depoimento
               </button>
 
@@ -184,6 +182,37 @@ export default function Home(props) {
         </div>
 
         <div className="profileRelationsArea" style={{ gridArea: 'profileRelationsArea' }}>
+
+        <ProfileRelationsBoxWrapper
+            isShowingMoreItems={isShowingMoreFollowers}>
+            <h2 className="smallTitle">Seguidores ({followers.length})</h2>
+            <ul>
+              {followers.map((item) => {
+                return (
+                  <li key={item.id}>
+                    <a href={`/profile/${item.login}`} >
+                      <a>
+                        <img src={`https://github.com/${item.login}.png`} />
+                        <span>{item.login}</span>
+                      </a>
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+            {followers.length > 6 && (
+              <>
+                <hr />
+                <button
+                  className="toggleButton"
+                  onClick={(e) => handleShowMoreFollowers(e)}
+                >
+                  {isShowingMoreFollowers ? 'Ver menos' : 'Ver mais'}
+                </button>
+              </>
+            )}
+          </ProfileRelationsBoxWrapper>       
+
           <ProfileRelationsBoxWrapper
             isShowingMoreItems={isShowingMoreFollowing}>
             <h2 className="smallTitle">Seguindo ({following.length})</h2>
@@ -243,36 +272,6 @@ export default function Home(props) {
             )}
           </ProfileRelationsBoxWrapper>
 
-          <ProfileRelationsBoxWrapper
-            isShowingMoreItems={isShowingMoreFollowers}>
-            <h2 className="smallTitle">Seguidores ({followers.length})</h2>
-            <ul>
-              {followers.map((item) => {
-                return (
-                  <li key={item.id}>
-                    <a href={`/profile/${item.login}`} >
-                      <a>
-                        <img src={`https://github.com/${item.login}.png`} />
-                        <span>{item.login}</span>
-                      </a>
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
-            {followers.length > 6 && (
-              <>
-                <hr />
-                <button
-                  className="toggleButton"
-                  onClick={(e) => handleShowMoreFollowers(e)}
-                >
-                  {isShowingMoreFollowers ? 'Ver menos' : 'Ver mais'}
-                </button>
-              </>
-            )}
-          </ProfileRelationsBoxWrapper>
-
         </div>
       </MainGrid>
     </>
@@ -304,34 +303,4 @@ export async function getServerSideProps(context) {
       githubUser
     }, // will be passed to the page component as props
   }
-}
-
-/* export async function getServerSideProps(ctx) {
-  const cookies = nookies.get(ctx);
-  const token = cookies.USER_TOKEN;
-  const decodedToken = jwt.decode(token);
-  const githubUser = decodedToken?.githubUser;
-
-  if (!githubUser) {
-    return {
-      redirect: {
-        destination: '/login',
-        permanent: false,
-      },
-    }
-  }
-
-  // const followers = await fetch(`https://api.github.com/users/${githubUser}/followers`)
-  //   .then((res) => res.json())
-  //   .then(followers => followers.map((follower) => ({
-  //     id: follower.id,
-  //     name: follower.login,
-  //     image: follower.avatar_url,
-  //   })));
-
-  return {
-    props: {
-      githubUser,
-    }
-  }
-} */
+};
